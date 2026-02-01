@@ -2,11 +2,11 @@
 #include <string>
 #include <random>
 #include <chrono>
+#include <memory>
 #include <SDL3/SDL.h>
 
 #include "classes/SceneManager.h"
 #include "classes/game_windows/MainMenu.h"
-#include "classes/game_windows/GamePlay.h"
 
 using namespace std;
 
@@ -25,7 +25,8 @@ int main(int argc, char* agrv[]){
 
     renderer = SDL_CreateRenderer(window,NULL);
 
-    SceneManager::changeScene(new MainMenu());
+    SceneManager scene_manager;
+    scene_manager.changeScene(std::make_unique<MainMenu>());
 
     while(window_open){
     
@@ -36,8 +37,16 @@ int main(int argc, char* agrv[]){
             if(event.type == SDL_EVENT_QUIT){
                 window_open = false;
             }
+            else if(event.type == SDL_EVENT_KEY_DOWN){
+                if(event.key.key == SDLK_LEFT){
+                    scene_manager.getActiveScene();
+                }
+                else if(event.key.key == SDLK_RIGHT){
+                    scene_manager.getActiveScene();
+                }
+            }
             else{
-                SceneManager::handle_events(&event);
+                // scene_manager.handle_events(&event);
             }
         }
 
@@ -47,8 +56,8 @@ int main(int argc, char* agrv[]){
         SDL_SetRenderDrawColor(renderer,230,230,230,255);
         SDL_RenderClear(renderer);
 
-        SceneManager::render();
-        SceneManager::update();
+        scene_manager.render();
+        scene_manager.update();
       
        
         SDL_RenderPresent(renderer);

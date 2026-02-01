@@ -5,41 +5,27 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include "Scene.h"
+#include <memory>
 
 using namespace std;
 
 class SceneManager{
 private:
-    Scene* scene = nullptr;
+    // std::unique_ptr<Scene> scene;
+    Scene* scene;
 
 public:
-    SceneManager(Scene* scene){
-        this->scene = scene;
-    }
+    SceneManager();
 
-    void changeScene(Scene* scene){
-        if(this->scene == nullptr){
-            cout << "scene is null\n";
-            this->scene = scene;
-        }
-        else{
-            cout << "scene not null\n";
-            delete this->scene;
-            this->scene = scene;
-        }
-    }
+    std::unique_ptr<Scene> getActiveScene();
 
-    void render(){
-        this->scene->render();
-    }
+    void changeScene(std::unique_ptr<Scene> scene);
 
-    void handle_events(SDL_Event* event){
-        this->scene->handle_events(event);
-    }
+    void render();
 
-    void update(){
-        this->scene->update();
-    }
+    void handle_events(SDL_Event* event);
+
+    void update();
 
         
 };
