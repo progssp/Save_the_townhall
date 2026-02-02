@@ -11,9 +11,6 @@ public:
     virtual void render() = 0;
     virtual void handle_events(SDL_Event* event) = 0;
     virtual void update() = 0;
-
-protected:
-    SceneManager* scene_manager;
 };
 
 #endif

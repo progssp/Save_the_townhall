@@ -1,4 +1,7 @@
 *.o
 *.sh
 .vscode
-*.sh
+*.exe
+/include
+/lib
+/Releases

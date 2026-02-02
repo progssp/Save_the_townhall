@@ -1,43 +1,56 @@
 #include "SceneManager.h"
 
+Scene* SceneManager::scene = nullptr;
 
-SceneManager::SceneManager(){
-    this->scene.reset();
-}
-
-std::unique_ptr<Scene> SceneManager::getActiveScene(){
-    return this->scene;
-}
-
-void SceneManager::changeScene(std::unique_ptr<Scene> new_scene){
+void SceneManager::changeScene(Scene* new_scene){    
+    // cout << "scene address: " << this->scene << "\n";
     // this->scene.reset();
     // this->scene = std::move(new_scene);
-    if(this->scene){
-        cout << "scene is not null\n";
+    if(scene != nullptr){
+        cout << "scene is not null from scene manager: changescene\n";
+        delete scene;
+        scene = nullptr;
+        if(scene != nullptr){
+            cout << "scene is not null after delete from scene manager: changescene\n";
+        }
+        else{
+            cout << "scene is null after del from scene manager: changescene\n";
+            scene = new_scene;
+            cout << "scene is updated after del from scene manager: changescene\n";
+        }
         // this->scene = std::move(scene);
     }
     else{
-        cout << "scene is null\n";
-        // delete this->scene;
+        cout << "scene is null from scene manager: changescene\n";
         // this->scene = nullptr;
-        // this->scene = scene;
+        scene = new_scene;
+        cout << "scene is updated from scene manager: changescene\n";
     }
 }
 
 void SceneManager::render(){
-    if(this->scene){
-        this->scene->render();
+    if(scene != nullptr){
+        scene->render();
+    }
+    else{
+        cout << "scene is null from scene manager: render\n";
     }
 }
 
 void SceneManager::handle_events(SDL_Event* event){
-    if(this->scene){
-        this->scene->handle_events(event);
+    if(scene != nullptr){
+        scene->handle_events(event);
+    }
+    else{
+        cout << "scene is null\n";
     }
 }
 
 void SceneManager::update(){
-    if(this->scene){
-        this->scene->update();
+    if(scene != nullptr){
+        scene->update();
+    }
+    else{
+        cout << "scene is null\n";
     }
 }

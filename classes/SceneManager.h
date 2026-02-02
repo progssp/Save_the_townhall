@@ -11,21 +11,17 @@ using namespace std;
 
 class SceneManager{
 private:
-    // std::unique_ptr<Scene> scene;
-    Scene* scene;
+    static Scene* scene;
 
 public:
-    SceneManager();
 
-    std::unique_ptr<Scene> getActiveScene();
+    static void changeScene(Scene* new_scene);
 
-    void changeScene(std::unique_ptr<Scene> scene);
+    static void render();
 
-    void render();
+    static void handle_events(SDL_Event* event);
 
-    void handle_events(SDL_Event* event);
-
-    void update();
+    static void update();
 
         
 };
